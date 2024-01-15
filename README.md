@@ -10,20 +10,20 @@ Herencia Mexicarties es una plataforma que une las ricas tradiciones artesanales
 
 ## 🤝 Equipo de Desarrollo
 El proyecto Herencia Mexicarties es el resultado del esfuerzo colaborativo de un equipo dedicado. Conoce a los desarrolladores detrás de esta iniciativa:
-- **Juán Gallegos** - *Desarrollador mexicartie* - 
-- **Francisco Hernández** - *Desarrollador mexicartie* -
-- **Héctor Jaime** - *Desarrollador mexicartie* - [Repositorio GitHub IsraelJv](https://github.com/IsraelJv)
-- **Michel Jimenez** - *Desarrollador mexicartie* - 
-- **Daniel Malvaez** - *Desarrollador mexicartie* - 
-- **Dafne Sánchez** - *Desarrollador mexicartie* - 
-- **Susan Yáñez** - *Desarrollador mexicartie* - 
+- **Juán Gallegos** - *Desarrollador mexicartie*
+- **Francisco Hernández** - *Desarrollador mexicartie*
+- **Héctor Jaime** - *Desarrollador mexicartie* 
+- **Michel Jimenez** - *Desarrollador mexicartie*
+- **Daniel Malvaez** - *Desarrollador mexicartie*
+- **Dafne Sánchez** - *Desarrollador mexicartie*
+- **Susan Yáñez** - *Desarrollador mexicartie*
 
 Nos encantaría contar con tus aportes o comentarios.
 
 ## 🌟Colaborar en el repositorio Mexicarties
 Para contribuir a nuestro proyecto, sigue estos pasos:
-1. Clona el repositorio con el comando: `git clone https://github.com/IsraelJv/esencia-mexicarties-frontend.git`.
-2. Ingresa a la carpeta del proyecto: `cd esencia-mexicarties-frontend`.
+1. Clona el repositorio con el comando: `git clone https://github.com/IsraelJv/esencia-mexicarties-backend.git`.
+2. Ingresa a la carpeta del proyecto: `cd esencia-mexicarties-backend`.
 3. Crea una nueva rama para tus cambios: `git branch rama-nombre`.
 4. Cambia a tu nueva rama: `git checkout rama-nombre`.
 
