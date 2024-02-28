@@ -12,184 +12,258 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema HerenciaMexicarties
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `HerenciaMexicarties` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8mb3 ;
 USE `HerenciaMexicarties` ;
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`User`
+-- Table `HerenciaMexicarties`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`User` (
-  `idUser` INT NOT NULL AUTO_INCREMENT,
-  `emailUser` VARCHAR(45) NOT NULL,
-  `nameUser` VARCHAR(45) NOT NULL,
-  `passwordUser` VARCHAR(45) NOT NULL,
-  `phoneUser` VARCHAR(45) NOT NULL,
-  `typeUser` ENUM("Admin", "User") NOT NULL,
-  PRIMARY KEY (`idUser`))
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`user` (
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `email_user` VARCHAR(45) NOT NULL,
+  `name_user` VARCHAR(45) NOT NULL,
+  `password_user` VARCHAR(45) NOT NULL,
+  `phone_user` VARCHAR(45) NOT NULL,
+  `type_user` ENUM("Admin", "User") NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `email_user_UNIQUE` (`email_user` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`PaymentMethods`
+-- Table `HerenciaMexicarties`.`payment_met`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`PaymentMethods` (
-  `idPaymentMethods` INT NOT NULL,
-  `payment Methods` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idPaymentMethods`))
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`payment_met` (
+  `payment_methods_id` INT NOT NULL AUTO_INCREMENT,
+  `payment_methods` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`payment_methods_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Order`
+-- Table `HerenciaMexicarties`.`order`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Order` (
-  `idOrder` INT NOT NULL AUTO_INCREMENT,
-  `datetimeOrder` DATETIME NOT NULL,
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`order` (
+  `order_id` INT NOT NULL AUTO_INCREMENT,
+  `date_time_order` DATETIME NOT NULL,
   `total` DOUBLE NOT NULL,
-  `numArticles` INT NOT NULL,
-  `Customer_idCustomer` INT NOT NULL,
-  `PaymentMethods_idPaymentMethods` INT NOT NULL,
-  PRIMARY KEY (`idOrder`),
-  INDEX `fk_Order_Customer1_idx` (`Customer_idCustomer` ASC) VISIBLE,
-  INDEX `fk_Order_PaymentMethods1_idx` (`PaymentMethods_idPaymentMethods` ASC) VISIBLE,
+  `num_articles` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `payment_methods_id` INT NOT NULL,
+  PRIMARY KEY (`order_id`),
+  INDEX `fk_Order_Customer1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_Order_PaymentMethods1_idx` (`payment_methods_id` ASC) VISIBLE,
   CONSTRAINT `fk_Order_Customer1`
-    FOREIGN KEY (`Customer_idCustomer`)
-    REFERENCES `HerenciaMexicarties`.`User` (`idUser`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `HerenciaMexicarties`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_PaymentMethods1`
-    FOREIGN KEY (`PaymentMethods_idPaymentMethods`)
-    REFERENCES `HerenciaMexicarties`.`PaymentMethods` (`idPaymentMethods`)
+    FOREIGN KEY (`payment_methods_id`)
+    REFERENCES `HerenciaMexicarties`.`payment_met` (`payment_methods_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Category`
+-- Table `HerenciaMexicarties`.`category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Category` (
-  `idCategory` INT NOT NULL AUTO_INCREMENT,
-  `nameCategory` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idCategory`))
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`category` (
+  `category_id` INT NOT NULL AUTO_INCREMENT,
+  `name_category` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`category_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Handicraftsman`
+-- Table `HerenciaMexicarties`.`handicraftsman`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Handicraftsman` (
-  `idHandicraftsman` INT NOT NULL,
-  `nameHandicraftsman` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idHandicraftsman`))
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`handicraftsman` (
+  `handicraftsman_id` INT NOT NULL AUTO_INCREMENT,
+  `name_handicraftsman` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`handicraftsman_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Product`
+-- Table `HerenciaMexicarties`.`product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Product` (
-  `idProduct` INT NOT NULL AUTO_INCREMENT,
-  `nameProduct` VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`product` (
+  `product_id` INT NOT NULL AUTO_INCREMENT,
+  `name_product` VARCHAR(45) NOT NULL,
+  `url` VARCHAR(350) NOT NULL,
   `price` DOUBLE NOT NULL,
   `stock` INT NOT NULL,
-  `SizeClothes` VARCHAR(45) NULL,
-  `productLocation` VARCHAR(45) NOT NULL,
-  `Category_idCategory` INT NOT NULL,
-  `Handicraftsman_idHandicraftsman` INT NOT NULL,
-  PRIMARY KEY (`idProduct`),
-  INDEX `fk_Product_Category1_idx` (`Category_idCategory` ASC) VISIBLE,
-  INDEX `fk_Product_Handicraftsman1_idx` (`Handicraftsman_idHandicraftsman` ASC) VISIBLE,
+  `size_clothes` VARCHAR(45) NULL,
+  `product_location` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(350) NOT NULL,
+  `category_id` INT NOT NULL,
+  `handicraftsman_id` INT NOT NULL,
+  PRIMARY KEY (`product_id`),
+  INDEX `fk_Product_Category1_idx` (`category_id` ASC) VISIBLE,
+  INDEX `fk_Product_Handicraftsman1_idx` (`handicraftsman_id` ASC) VISIBLE,
   CONSTRAINT `fk_Product_Category1`
-    FOREIGN KEY (`Category_idCategory`)
-    REFERENCES `HerenciaMexicarties`.`Category` (`idCategory`)
+    FOREIGN KEY (`category_id`)
+    REFERENCES `HerenciaMexicarties`.`category` (`category_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Product_Handicraftsman1`
-    FOREIGN KEY (`Handicraftsman_idHandicraftsman`)
-    REFERENCES `HerenciaMexicarties`.`Handicraftsman` (`idHandicraftsman`)
+    FOREIGN KEY (`handicraftsman_id`)
+    REFERENCES `HerenciaMexicarties`.`handicraftsman` (`handicraftsman_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Order_has_Product`
+-- Table `HerenciaMexicarties`.`order_has_product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Order_has_Product` (
-  `Order_idOrder` INT NOT NULL,
-  `Product_idProduct` INT NOT NULL,
-  `numProducts` INT NOT NULL,
-  `total` DOUBLE NOT NULL,
-  INDEX `fk_Order_has_Product_Product1_idx` (`Product_idProduct` ASC) VISIBLE,
-  INDEX `fk_Order_has_Product_Order1_idx` (`Order_idOrder` ASC) VISIBLE,
-  PRIMARY KEY (`Order_idOrder`, `Product_idProduct`),
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`order_has_product` (
+  `order_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `order_has_product_id` INT NOT NULL AUTO_INCREMENT,
+  INDEX `fk_Order_has_Product_Product1_idx` (`product_id` ASC) VISIBLE,
+  INDEX `fk_Order_has_Product_Order1_idx` (`order_id` ASC) VISIBLE,
+  PRIMARY KEY (`order_has_product_id`),
   CONSTRAINT `fk_Order_has_Product_Order1`
-    FOREIGN KEY (`Order_idOrder`)
-    REFERENCES `HerenciaMexicarties`.`Order` (`idOrder`)
+    FOREIGN KEY (`order_id`)
+    REFERENCES `HerenciaMexicarties`.`order` (`order_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Order_has_Product_Product1`
-    FOREIGN KEY (`Product_idProduct`)
-    REFERENCES `HerenciaMexicarties`.`Product` (`idProduct`)
+    FOREIGN KEY (`product_id`)
+    REFERENCES `HerenciaMexicarties`.`product` (`product_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Comment`
+-- Table `HerenciaMexicarties`.`comment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Comment` (
-  `idComment` INT NOT NULL,
-  `comment` VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`comment` (
+  `comment_id` INT NOT NULL AUTO_INCREMENT,
+  `comment` VARCHAR(350) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `nameUser` VARCHAR(45) NOT NULL,
-  `User_idUser` INT NULL,
-  PRIMARY KEY (`idComment`),
-  INDEX `fk_Comment_User1_idx` (`User_idUser` ASC) VISIBLE,
+  `name_user` VARCHAR(45) NOT NULL,
+  `user_id` INT NULL,
+  PRIMARY KEY (`comment_id`),
+  INDEX `fk_Comment_User1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_Comment_User1`
-    FOREIGN KEY (`User_idUser`)
-    REFERENCES `HerenciaMexicarties`.`User` (`idUser`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `HerenciaMexicarties`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Address`
+-- Table `HerenciaMexicarties`.`address`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Address` (
-  `idAddress` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`address` (
+  `address_id` INT NOT NULL AUTO_INCREMENT,
   `address` VARCHAR(45) NULL,
-  `numInt` VARCHAR(45) NULL,
-  `numExt` VARCHAR(45) NULL,
+  `num_int` VARCHAR(45) NULL,
+  `num_ext` VARCHAR(45) NULL,
   `city` VARCHAR(45) NULL,
   `country` VARCHAR(45) NULL,
-  `zipCode` VARCHAR(45) NULL,
-  PRIMARY KEY (`idAddress`))
+  `zip_code` VARCHAR(45) NULL,
+  PRIMARY KEY (`address_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `HerenciaMexicarties`.`Address_has_Customer`
+-- Table `HerenciaMexicarties`.`address_has_user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`Address_has_Customer` (
-  `Address_idAddress` INT NOT NULL,
-  `Customer_idCustomer` INT NOT NULL,
-  PRIMARY KEY (`Address_idAddress`, `Customer_idCustomer`),
-  INDEX `fk_Address_has_Customer_Customer1_idx` (`Customer_idCustomer` ASC) VISIBLE,
-  INDEX `fk_Address_has_Customer_Address1_idx` (`Address_idAddress` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `HerenciaMexicarties`.`address_has_user` (
+  `address_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `address_has_user_id` INT NOT NULL,
+  PRIMARY KEY (`address_has_user_id`),
+  INDEX `fk_Address_has_Customer_Customer1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_Address_has_Customer_Address1_idx` (`address_id` ASC) VISIBLE,
   CONSTRAINT `fk_Address_has_Customer_Address1`
-    FOREIGN KEY (`Address_idAddress`)
-    REFERENCES `HerenciaMexicarties`.`Address` (`idAddress`)
+    FOREIGN KEY (`address_id`)
+    REFERENCES `HerenciaMexicarties`.`address` (`address_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Address_has_Customer_Customer1`
-    FOREIGN KEY (`Customer_idCustomer`)
-    REFERENCES `HerenciaMexicarties`.`User` (`idUser`)
+    FOREIGN KEY (`user_id`)
+    REFERENCES `HerenciaMexicarties`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`book`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`book` (
+  `price` DOUBLE NOT NULL,
+  `author` VARCHAR(150) NOT NULL,
+  `stock` INT NOT NULL,
+  `book_id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`book_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`order`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`order` (
+  `order_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`order_id`),
+  INDEX `fk_Order_User_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Order_User`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `mydb`.`user` (`user_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`orderdetail`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`orderdetail` (
+  `book_id` INT NOT NULL,
+  `order_id` INT NOT NULL,
+  `order_details_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  PRIMARY KEY (`order_details_id`),
+  INDEX `fk_Book_has_Order_Order1_idx` (`order_id` ASC) VISIBLE,
+  INDEX `fk_Book_has_Order_Book1_idx` (`book_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Book_has_Order_Book1`
+    FOREIGN KEY (`book_id`)
+    REFERENCES `mydb`.`book` (`book_id`),
+  CONSTRAINT `fk_Book_has_Order_Order1`
+    FOREIGN KEY (`order_id`)
+    REFERENCES `mydb`.`order` (`order_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
